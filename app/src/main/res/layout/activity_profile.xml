@@ -50,8 +50,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
@@ -59,7 +59,6 @@
         app:civ_border_color="@color/grey"
         app:civ_border_width="1dp"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@id/edit_profile_btn"
         app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -68,7 +67,7 @@
         android:id="@+id/posts_count_text"
         style="@style/profile_text_count"
         tools:text="50"
-        app:layout_constraintBottom_toTopOf="@id/edit_profile_btn"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="@id/posts_text"
         app:layout_constraintStart_toStartOf="@id/posts_text"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -79,7 +78,7 @@
         style="@style/profile_text"
         android:text="@string/posts"
         app:layout_constraintEnd_toStartOf="@id/followers_text"
-        app:layout_constraintStart_toStartOf="@id/edit_profile_btn"
+        app:layout_constraintStart_toEndOf="@id/profile_image"
         app:layout_constraintTop_toBottomOf="@id/posts_count_text" />
 
     <TextView
@@ -110,8 +109,9 @@
         android:id="@+id/following_text"
         style="@style/profile_text"
         android:text="@string/following"
+        android:layout_marginEnd="15dp"
         app:layout_constraintBaseline_toBaselineOf="@id/posts_text"
-        app:layout_constraintEnd_toEndOf="@id/edit_profile_btn"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/followers_text" />
 
     <Button
@@ -132,13 +132,49 @@
         app:layout_constraintHorizontal_weight="5"
         app:layout_constraintStart_toEndOf="@id/profile_image" />
 
+    <Button
+        android:id="@+id/follow_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/button_bg"
+        android:minHeight="0dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/follow"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/profile_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintStart_toEndOf="@id/profile_image" />
+
+    <Button
+        android:id="@+id/unfollow_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/button_bg"
+        android:minHeight="0dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/unfollow"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/profile_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintStart_toEndOf="@id/profile_image" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/images_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/top_border_grey"
-        app:layout_constraintTop_toBottomOf="@id/edit_profile_btn"
+        app:layout_constraintTop_toBottomOf="@id/profile_image"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view">
 
     </androidx.recyclerview.widget.RecyclerView>

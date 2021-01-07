@@ -38,7 +38,7 @@ class ViewModelFactory(private val app: InstagramApp,
         } else if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(authManager, app, commonViewModel, onFailureListener) as T
         } else if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
-            return ProfileViewModel(usersRepo, onFailureListener) as T
+            return ProfileViewModel(usersRepo,feedPostsRepo, onFailureListener) as T
         } else if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
             return RegisterViewModel(commonViewModel, app, onFailureListener, usersRepo) as T
         } else if (modelClass.isAssignableFrom(ShareViewModel::class.java)) {

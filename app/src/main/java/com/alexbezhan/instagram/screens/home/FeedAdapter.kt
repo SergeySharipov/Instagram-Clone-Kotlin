@@ -1,5 +1,6 @@
 package com.alexbezhan.instagram.screens.home
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.alexbezhan.instagram.screens.common.SimpleCallback
 import com.alexbezhan.instagram.screens.common.loadImage
 import com.alexbezhan.instagram.screens.common.loadUserPhoto
 import com.alexbezhan.instagram.screens.common.setCaptionText
+import com.alexbezhan.instagram.screens.profile.ProfileActivity
 import kotlinx.android.synthetic.main.feed_item.view.*
 
 class FeedAdapter(private val listener: Listener)
@@ -35,7 +37,7 @@ class FeedAdapter(private val listener: Listener)
     }
 
     fun updatePostLikes(position: Int, likes: FeedPostLikes) {
-        postLikes += (position to likes)
+        postLikes = postLikes + (position to likes)
         notifyItemChanged(position)
     }
 
@@ -45,6 +47,13 @@ class FeedAdapter(private val listener: Listener)
         with(holder.view) {
             user_photo_image.loadUserPhoto(post.photo)
             username_text.text = post.username
+            username_text.setOnClickListener {
+                val intent = Intent(context, ProfileActivity::class.java)
+                intent.putExtra("EXTRA_USER_ID", post.uid)
+                intent.putExtra("EXTRA_NAV_NUMBER", 0)
+                intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+                context.startActivity(intent)
+            }
             post_image.loadImage(post.image)
             if (likes.likesCount == 0) {
                 likes_text.visibility = View.GONE

@@ -23,6 +23,7 @@
     <string name="share">Share</string>
     <string name="enter_a_caption_here">Enter a caption here…</string>
     <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
     <string name="next">Next</string>
     <string name="enter_full_name_and_password">Enter full name and password</string>
     <string name="full_name">Full name</string>
