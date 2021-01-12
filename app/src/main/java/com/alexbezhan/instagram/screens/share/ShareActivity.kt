@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
 import com.alexbezhan.instagram.R
-import com.alexbezhan.instagram.data.firebase.common.FirebaseHelper
 import com.alexbezhan.instagram.models.User
 import com.alexbezhan.instagram.screens.common.BaseActivity
 import com.alexbezhan.instagram.screens.common.CameraHelper
@@ -15,7 +14,6 @@ import kotlinx.android.synthetic.main.activity_share.*
 
 class ShareActivity : BaseActivity() {
     private lateinit var mCamera: CameraHelper
-    private lateinit var mFirebase: FirebaseHelper
     private lateinit var mUser: User
     private lateinit var mViewModel: ShareViewModel
 
@@ -26,7 +24,6 @@ class ShareActivity : BaseActivity() {
 
         setupAuthGuard {
             mViewModel = initViewModel()
-            mFirebase = FirebaseHelper(this)
 
             mCamera = CameraHelper(this)
             mCamera.takeCameraPicture()
