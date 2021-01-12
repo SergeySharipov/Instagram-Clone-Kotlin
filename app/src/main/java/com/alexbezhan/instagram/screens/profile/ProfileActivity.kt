@@ -19,48 +19,24 @@ class ProfileActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
-        val userId = intent.getStringExtra("EXTRA_USER_ID")
-        val navNumber = intent.getIntExtra("EXTRA_NAV_NUMBER", 0)
-        Log.d(TAG, "onCreate: EXTRA_USER_ID: ${userId}; EXTRA_NAV_NUMBER: ${navNumber};")
+        val extraUId = intent.getStringExtra("EXTRA_USER_ID")
+        val navNumber = intent.getIntExtra("EXTRA_NAV_NUMBER", 4)
+        Log.d(TAG, "onCreate: EXTRA_USER_ID: ${extraUId}; EXTRA_NAV_NUMBER: ${navNumber};")
 
-        edit_profile_btn.setOnClickListener {
-            val intent = Intent(this, EditProfileActivity::class.java)
-            startActivity(intent)
-        }
-        settings_image.setOnClickListener {
-            val intent = Intent(this, ProfileSettingsActivity::class.java)
-            startActivity(intent)
-        }
-        add_friends_image.setOnClickListener {
-            val intent = Intent(this, AddFriendsActivity::class.java)
-            startActivity(intent)
-        }
         images_recycler.layoutManager = GridLayoutManager(this, 3)
         mAdapter = ImagesAdapter()
         images_recycler.adapter = mAdapter
 
-        setupAuthGuard { uid ->
+        setupAuthGuard { currentUid ->
             mViewModel = initViewModel()
-            if (userId != null && userId != uid) {
-                edit_profile_btn.visibility = View.GONE
-                settings_image.visibility = View.INVISIBLE
-                add_friends_image.visibility = View.INVISIBLE
+            mViewModel.init(currentUid, extraUId)
 
-                follow_btn.setOnClickListener {
-                    mViewModel.setFollow(uid,userId,true)
-                }
-                unfollow_btn.setOnClickListener {
-                    mViewModel.setFollow(uid,userId,false)
-                }
-
-                mViewModel.init(userId)
-                setupBottomNavigation(uid, navNumber)
+            if (mViewModel.isNotCurrentUserAccount()) {
+                setupOtherUserProfile()
+                setupBottomNavigation(currentUid, navNumber)
             } else {
-                follow_btn.visibility = View.GONE
-                unfollow_btn.visibility = View.GONE
-
-                mViewModel.init(uid)
-                setupBottomNavigation(uid, 4)
+                setupCurrentUserProfile()
+                setupBottomNavigation(currentUid, 4)
             }
             mViewModel.user.observe(this, {
                 it?.let {
@@ -69,8 +45,8 @@ class ProfileActivity : BaseActivity() {
                     followers_count_text.text = it.followers.size.toString()
                     following_count_text.text = it.follows.size.toString()
 
-                    if(userId != null && userId != uid) {
-                        val follows = it.followers[uid] ?: false
+                    if(mViewModel.isNotCurrentUserAccount()) {
+                        val follows = it.followers[currentUid] ?: false
                         if (follows) {
                             follow_btn.visibility = View.GONE
                             unfollow_btn.visibility = View.VISIBLE
@@ -87,6 +63,37 @@ class ProfileActivity : BaseActivity() {
                     posts_count_text.text = images.size.toString()
                 }
             })
+        }
+    }
+
+    private fun setupCurrentUserProfile(){
+        follow_btn.visibility = View.GONE
+        unfollow_btn.visibility = View.GONE
+
+        edit_profile_btn.setOnClickListener {
+            val intent = Intent(this, EditProfileActivity::class.java)
+            startActivity(intent)
+        }
+        settings_image.setOnClickListener {
+            val intent = Intent(this, ProfileSettingsActivity::class.java)
+            startActivity(intent)
+        }
+        add_friends_image.setOnClickListener {
+            val intent = Intent(this, AddFriendsActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun setupOtherUserProfile(){
+        edit_profile_btn.visibility = View.GONE
+        settings_image.visibility = View.GONE
+        add_friends_image.visibility = View.GONE
+
+        follow_btn.setOnClickListener {
+            mViewModel.setFollow(true)
+        }
+        unfollow_btn.setOnClickListener {
+            mViewModel.setFollow(false)
         }
     }
 

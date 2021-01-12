@@ -2,13 +2,13 @@ package com.alexbezhan.instagram.data.firebase
 
 import androidx.lifecycle.LiveData
 import com.alexbezhan.instagram.common.*
-import com.alexbezhan.instagram.data.FeedPostLike
 import com.alexbezhan.instagram.data.FeedPostsRepository
 import com.alexbezhan.instagram.data.common.map
 import com.alexbezhan.instagram.data.firebase.common.FirebaseLiveData
 import com.alexbezhan.instagram.data.firebase.common.database
 import com.alexbezhan.instagram.models.Comment
 import com.alexbezhan.instagram.models.FeedPost
+import com.alexbezhan.instagram.models.FeedPostLike
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 
@@ -93,5 +93,4 @@ class FirebaseFeedPostsRepository : FeedPostsRepository {
 
     private fun DataSnapshot.asComment(): Comment? =
             getValue(Comment::class.java)?.copy(id = key!!)
-
 }
