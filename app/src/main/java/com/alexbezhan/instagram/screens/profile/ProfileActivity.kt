@@ -69,6 +69,7 @@ class ProfileActivity : BaseActivity() {
     private fun setupCurrentUserProfile(){
         follow_btn.visibility = View.GONE
         unfollow_btn.visibility = View.GONE
+        back_image.visibility = View.GONE
 
         edit_profile_btn.setOnClickListener {
             val intent = Intent(this, EditProfileActivity::class.java)
@@ -95,6 +96,7 @@ class ProfileActivity : BaseActivity() {
         unfollow_btn.setOnClickListener {
             mViewModel.setFollow(false)
         }
+        back_image.setOnClickListener { finish() }
     }
 
     companion object {

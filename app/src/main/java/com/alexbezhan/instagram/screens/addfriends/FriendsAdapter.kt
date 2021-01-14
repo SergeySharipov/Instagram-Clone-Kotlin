@@ -1,5 +1,6 @@
 package com.alexbezhan.instagram.screens.addfriends
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import com.alexbezhan.instagram.R
 import com.alexbezhan.instagram.models.User
 import com.alexbezhan.instagram.screens.common.SimpleCallback
 import com.alexbezhan.instagram.screens.common.loadUserPhoto
+import com.alexbezhan.instagram.screens.profile.ProfileActivity
 import kotlinx.android.synthetic.main.add_friends_item.view.*
 
 class FriendsAdapter(private val listener: Listener)
@@ -36,6 +38,13 @@ class FriendsAdapter(private val listener: Listener)
             val user = mUsers[position]
             photo_image.loadUserPhoto(user.photo)
             username_text.text = user.username
+            username_text.setOnClickListener {
+                val intent = Intent(context, ProfileActivity::class.java)
+                intent.putExtra("EXTRA_USER_ID", user.uid)
+                intent.putExtra("EXTRA_NAV_NUMBER", 4)
+                intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+                context.startActivity(intent)
+            }
             name_text.text = user.name
             follow_btn.setOnClickListener { listener.follow(user.uid) }
             unfollow_btn.setOnClickListener { listener.unfollow(user.uid) }
